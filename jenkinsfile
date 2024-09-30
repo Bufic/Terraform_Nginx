@@ -49,6 +49,24 @@ pipeline {
                 sh "pwd;cd terraform/ ; terraform apply -input=false tfplan"
             }
         }
+
+        stage('Destroy') {
+            steps {
+                script {
+                    // Prompt user for confirmation before running destroy
+                    input message: "Are you sure you want to destroy the infrastructure? This action is irreversible.",
+                          ok: "Destroy",
+                          parameters: [booleanParam(name: 'confirmDestroy', defaultValue: false, description: 'Check this box to confirm destruction of resources.')]
+                    
+                    // Check if user confirmed destroy action
+                    if (params.confirmDestroy) {
+                        sh "pwd; cd terraform/ ; terraform destroy -auto-approve"
+                    } else {
+                        error "Destroy action was not confirmed. Aborting."
+                    }
+                }
+            }
     }
 
   }
+}
