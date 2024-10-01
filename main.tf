@@ -10,7 +10,7 @@ resource "aws_vpc" "group10_nginx_vpc" {
 resource "aws_subnet" "group10_public_subnet" {
   vpc_id     = aws_vpc.group10_nginx_vpc.id
   cidr_block = var.subnet_cidr_block
-  availability_zone = "${var.aws_region}a"
+  availability_zone = "${var.aws_region}b"
   tags = {
     name = "devops-group-10"
   }
