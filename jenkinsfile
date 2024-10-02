@@ -50,7 +50,19 @@ pipeline {
             }
         }
 
+        stage('Destroy Approval') {
+            steps {
+                script {
+                    input message: "Do you want to destroy the resources?",
+                    parameters: [booleanParam(name: 'confirmDestroy', description: 'Confirm destroy?', defaultValue: false)]
+                }
+            }
+        }
+
         stage('Destroy') {
+            when {
+                expression { return params.confirmDestroy == true }
+            }
             steps {
               dir('terraform') {
                 sh 'terraform destroy -auto-approve'
