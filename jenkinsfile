@@ -59,7 +59,8 @@ pipeline {
                     def userInput = input message: "Do you want to destroy the resources?",
                                            parameters: [booleanParam(name: 'confirmDestroy', description: 'Confirm destroy?', defaultValue: false)]
                     // Set params.confirmDestroy to the input value
-                    params.confirmDestroy = userInput['confirmDestroy']
+                    params.confirmDestroy = userInput.confirmDestroy
+
                 }
             }
         }
